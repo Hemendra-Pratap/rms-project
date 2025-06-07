@@ -26,112 +26,112 @@ class Complaint(db.Model):
 @app.route('/')
 def index():
     # Inside your index() route in rms.py
-return render_template_string("""
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Wi-Fi Issue Reporting | RMS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f2f4f8;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
-        .card {
-            background: white;
-            padding: 2rem;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 500px;
-        }
-        h2 {
-            margin-bottom: 1.5rem;
-            color: #2f3e46;
-        }
-        label {
-            font-weight: 600;
-            display: block;
-            margin-top: 1rem;
-            margin-bottom: 0.5rem;
-        }
-        input, select, textarea {
-            width: 100%;
-            padding: 0.7rem;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            font-size: 1rem;
-        }
-        button {
-            margin-top: 1.5rem;
-            padding: 0.8rem;
-            width: 100%;
-            background-color: #007bff;
-            color: white;
-            font-weight: bold;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .message {
-            margin-top: 1rem;
-            color: green;
-            font-weight: 600;
-        }
-    </style>
-    <script>
-        function submitComplaint() {
-            const customer_id = document.getElementById("customer_id").value;
-            const issue_type = document.getElementById("issue_type").value;
-            const description = document.getElementById("description").value;
+    return render_template_string("""
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Wi-Fi Issue Reporting | RMS</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+        <style>
+            body {
+                font-family: 'Inter', sans-serif;
+                background-color: #f2f4f8;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+            }
+            .card {
+                background: white;
+                padding: 2rem;
+                border-radius: 12px;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                width: 100%;
+                max-width: 500px;
+            }
+            h2 {
+                margin-bottom: 1.5rem;
+                color: #2f3e46;
+            }
+            label {
+                font-weight: 600;
+                display: block;
+                margin-top: 1rem;
+                margin-bottom: 0.5rem;
+            }
+            input, select, textarea {
+                width: 100%;
+                padding: 0.7rem;
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                font-size: 1rem;
+            }
+            button {
+                margin-top: 1.5rem;
+                padding: 0.8rem;
+                width: 100%;
+                background-color: #007bff;
+                color: white;
+                font-weight: bold;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+            }
+            button:hover {
+                background-color: #0056b3;
+            }
+            .message {
+                margin-top: 1rem;
+                color: green;
+                font-weight: 600;
+            }
+        </style>
+        <script>
+            function submitComplaint() {
+                const customer_id = document.getElementById("customer_id").value;
+                const issue_type = document.getElementById("issue_type").value;
+                const description = document.getElementById("description").value;
 
-            fetch('/complaint', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ customer_id, issue_type, description })
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById("message").textContent = data.message;
-            })
-            .catch(error => {
-                document.getElementById("message").textContent = "Something went wrong.";
-                console.error(error);
-            });
-        }
-    </script>
-</head>
-<body>
-    <div class="card">
-        <h2>Report Wi-Fi Issue</h2>
-        <label for="customer_id">Customer ID:</label>
-        <input type="number" id="customer_id" name="customer_id" required>
+                fetch('/complaint', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ customer_id, issue_type, description })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById("message").textContent = data.message;
+                })
+                .catch(error => {
+                    document.getElementById("message").textContent = "Something went wrong.";
+                    console.error(error);
+                });
+            }
+        </script>
+    </head>
+    <body>
+        <div class="card">
+            <h2>Report Wi-Fi Issue</h2>
+            <label for="customer_id">Customer ID:</label>
+            <input type="number" id="customer_id" name="customer_id" required>
 
-        <label for="issue_type">Issue Type:</label>
-        <select id="issue_type" name="issue_type">
-            <option value="No Connection">No Connection</option>
-            <option value="Disconnected After Some Time">Disconnected After Some Time</option>
-            <option value="Low Speed">Low Speed</option>
-            <option value="Unable to Connect">Unable to Connect</option>
-        </select>
+            <label for="issue_type">Issue Type:</label>
+            <select id="issue_type" name="issue_type">
+                <option value="No Connection">No Connection</option>
+                <option value="Disconnected After Some Time">Disconnected After Some Time</option>
+                <option value="Low Speed">Low Speed</option>
+                <option value="Unable to Connect">Unable to Connect</option>
+            </select>
 
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" rows="4"></textarea>
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" rows="4"></textarea>
 
-        <button type="button" onclick="submitComplaint()">Submit Complaint</button>
-        <div class="message" id="message"></div>
-    </div>
-</body>
-</html>
-""")
+            <button type="button" onclick="submitComplaint()">Submit Complaint</button>
+            <div class="message" id="message"></div>
+        </div>
+    </body>
+    </html>
+    """)
 
 
 @app.route('/add-customer', methods=['POST'])
@@ -301,9 +301,3 @@ with app.app_context():
 
 if __name__ == '__main__':
     app.run(debug=True)
-
-import os
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)))
-
